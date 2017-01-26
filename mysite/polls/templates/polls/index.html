@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+
+    <body>
+
+    {% if latest_questions %}
+        <ul>
+            {% for question in latest_questions %}
+                <li><a href="/polls/{{question.id}}"><b>{{question.question_text}}</b></a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Non sono state trovate le domande,aggiungi altre domande.</p>
+    {% endif %}
+
+
+    </body>
+</html>
