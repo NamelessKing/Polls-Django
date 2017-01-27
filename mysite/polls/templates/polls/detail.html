@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'polls/base.html' %}
 
+{% block main_content %}
     <h1>{{question.question_text}}</h1>
-    <ul>
-        {% for c in question.choice_set.all %}
-        <li>{{c.choice_text}}</li>
-        {% endfor %}
-    </ul>
 
-</body>
-</html>
+    {% if error_message %}
+        <p><strong>{{error_message}}</strong></p>
+    {% endif %}
+
+    <form action="{% url 'polls:vote' question.id %}" method="post" >
+        {% csrf_token %}
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}"/>
+            <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label><br>
+        {% endfor %}
+        <input type="submit" class="btn btn-success" value="vote"/>
+    </form>
+
+    <a href="{% url 'polls:index' %}"> <- Back to Question List</a>
+
+{% endblock %}
